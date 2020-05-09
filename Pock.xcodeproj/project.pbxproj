@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		009B0E12E317757741CE38C8 /* Pods_Pock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 863BE70CFBAC31BDBF35B1FD /* Pods_Pock.framework */; };
+		0BE9C15A2466E08400044914 /* WindWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BE9C1592466E08400044914 /* WindWidget.swift */; };
 		34064337227E224700981372 /* DockFolderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34064336227E224700981372 /* DockFolderController.swift */; };
 		3406433E227ED8BC00981372 /* DockFolderItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3406433D227ED8BC00981372 /* DockFolderItemView.swift */; };
 		34064343227EDC2200981372 /* DockFolderRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34064342227EDC2200981372 /* DockFolderRepository.swift */; };
@@ -88,6 +89,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BE9C1592466E08400044914 /* WindWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindWidget.swift; sourceTree = "<group>"; };
 		34064336227E224700981372 /* DockFolderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockFolderController.swift; sourceTree = "<group>"; };
 		3406433D227ED8BC00981372 /* DockFolderItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockFolderItemView.swift; sourceTree = "<group>"; };
 		34064342227EDC2200981372 /* DockFolderRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockFolderRepository.swift; sourceTree = "<group>"; };
@@ -232,6 +234,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BE9C1582466E04A00044914 /* Wind */ = {
+			isa = PBXGroup;
+			children = (
+				0BE9C1592466E08400044914 /* WindWidget.swift */,
+			);
+			name = Wind;
+			sourceTree = "<group>";
+		};
 		2F31B7DC05EFA1E8090C87AE /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +445,7 @@
 		342D83B42278D5CF000D79DA /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				0BE9C1582466E04A00044914 /* Wind */,
 				3435675A2381666F00E408EF /* WidgetsDispatcherr.swift */,
 				342D83CD2278D5CF000D79DA /* Common */,
 				342D83CA2278D5CF000D79DA /* Esc key */,
@@ -795,6 +806,7 @@
 				"${BUILT_PRODUCTS_DIR}/Magnet/Magnet.framework",
 				"${BUILT_PRODUCTS_DIR}/PockKit/PockKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework",
+				"${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -804,6 +816,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Magnet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PockKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Preferences.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sauce.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -847,6 +860,7 @@
 				342D83EE2278D5CF000D79DA /* ControlCenterWidget.swift in Sources */,
 				342D83EC2278D5CF000D79DA /* OSDUIHelper.swift in Sources */,
 				3418D9FF22882EC600E11E37 /* PKSlideableController.swift in Sources */,
+				0BE9C15A2466E08400044914 /* WindWidget.swift in Sources */,
 				342D83FE2278D5CF000D79DA /* EscWidget.swift in Sources */,
 				345C955423A53D4D00E1AC53 /* NowPlayingPreferencePane.swift in Sources */,
 				34064343227EDC2200981372 /* DockFolderRepository.swift in Sources */,

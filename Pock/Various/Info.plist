@@ -51,6 +51,11 @@
 				<key>NSIncludesSubdomains</key>
 				<false/>
 			</dict>
+			<key>windcal.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
