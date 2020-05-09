@@ -9,8 +9,8 @@
 import Cocoa
 import Defaults
 import Preferences
-import Fabric
-import Crashlytics
+//import Fabric
+//import Crashlytics
 import Magnet
 @_exported import PockKit
 
@@ -45,10 +45,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.isAutomaticCustomizeTouchBarMenuItemEnabled = true
         
         /// Initialize Crashlytics
-        if isProd {
-            UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
-            Fabric.with([Crashlytics.self])
-        }
+//        if isProd {
+//            UserDefaults.standard.register(defaults: ["NSApplicationCrashOnExceptions": true])
+//            Fabric.with([Crashlytics.self])
+//        }
         
         /// Check for accessibility (needed for badges to work)
         self.checkAccessibility()

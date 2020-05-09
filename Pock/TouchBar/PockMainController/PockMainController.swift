@@ -40,7 +40,7 @@ class PockMainController: PKTouchBarController {
     override func didLoad() {
         WidgetsDispatcher.default.loadInstalledWidget() { widgets in
             self.touchBar?.customizationIdentifier              = .pockTouchBar
-            self.touchBar?.defaultItemIdentifiers               = [.escButton,  .dockView]
+            self.touchBar?.defaultItemIdentifiers               = [.escButton, .currentWind, .dockView]
             self.touchBar?.customizationAllowedItemIdentifiers  = [.escButton, .currentWind, .dockView, .controlCenter, .nowPlaying, .status]
 
             let customizableIds: [NSTouchBarItem.Identifier] = widgets.map({ $0.identifier })

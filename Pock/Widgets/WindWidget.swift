@@ -12,7 +12,8 @@ import Foundation
 class WindWidgetButton: NSButton {
     override open var intrinsicContentSize: NSSize {
         var size = super.intrinsicContentSize
-        size.width = min(size.width, 64)
+        size.width = min(size.width, 120)
+
         return size
     }
 }
@@ -30,26 +31,48 @@ class WindWidget: PKWidget {
     var customizationLabel: String = "Current wind in podersdorf".localized
     var view: NSView!
     var button: NSButton!
+    var isFetching: Bool = false
 
     required init() {
         button = WindWidgetButton(title: "", target: self, action: #selector(tap))
 
         view = button
+    }
 
-        refreshValue()
+    func viewDidAppear() {
+        //button.addGestureRecognizer(NSGes(target: self, action: #selector(didLongPress(_:))))
 
         Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(refreshValue), userInfo: nil, repeats: true)
+
+        refreshValue()
     }
+
+//    @IBAction private func didLongPress(_ control: AnyObject) {
+//        print("long pressed")
+//
+//
+//        let sUrl = "https://www.kiteriders.at/wind/weatherstat_kn.html"
+//
+//        NSWorkspace.shared.open(NSURL(string: sUrl)! as URL)
+//    }
+
     @objc func refreshValue()
     {
+        if(isFetching){
+            print("Skipped fetching!")
+            return
+        }
 
+        isFetching = true
         print("Fetching wind values...");
 
         // Set loading icon
         button.title = "\u{25CC}";
+        button.font = NSFont(name: "Helvetica Neue", size: 15.0)
 
         let url = URL(string: "http://windcal.com/currentWind.php?limit=1")!
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            self.isFetching = false
 
             if let data = data {
                 print("Fetched wind values!");
@@ -76,13 +99,20 @@ class WindWidget: PKWidget {
 
     private func setWindValue(value: WindValue) {
 
-        let title = value.direction + " " + Int(value.avg).description + " " + Int(value.gust).description
+        var title = value.direction + "\n" + Int(value.avg).description
+
+        // Only display gusts if they are greater than the average value
+        if Int(value.avg) < Int(value.gust) {
+            title +=  "-" + Int(value.gust).description
+        }
+        title += " kts"
         print(title)
         self.button.title = title
+        self.button.font = NSFont(name: "Helvetica Neue", size: 11.0)
 
         if(value.avg < 12){
             // Light blue
-            self.button.bezelColor = NSColor.init(red: 156/255, green: 250/255, blue: 246/255, alpha: 1)
+            // self.button.bezelColor = NSColor.init(red: 156/255, green: 250/255, blue: 246/255, alpha: 1)
         } else if(value.avg < 18){
             // Green
             self.button.bezelColor = NSColor.init(red: 75/255, green: 252/255, blue: 35/255, alpha: 1)
@@ -101,10 +131,6 @@ class WindWidget: PKWidget {
 
     @objc private func tap() {
         refreshValue()
-
-        //let sUrl = "https://www.kiteriders.at/wind/weatherstat_kn.html"
-
-        //NSWorkspace.shared.open(NSURL(string: sUrl)! as URL)
     }
 }
 
