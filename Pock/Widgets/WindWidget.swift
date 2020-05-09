@@ -42,28 +42,35 @@ class WindWidget: PKWidget {
     }
     @objc func refreshValue()
     {
-        let url = URL(string: "http://windcal.com/currentWind.php?limit=1")!
-        let request = URLRequest(url: url)
+
+        print("Fetching wind values...");
 
         // Set loading icon
         button.title = "\u{25CC}";
 
-        NSURLConnection.sendAsynchronousRequest(request, queue: OperationQueue.main) {(response, data, error) in
-            guard let data = data else { return }
-            let jsonString = (String(data: data, encoding: .utf8)!)
-            let jsonData = jsonString.data(using: .utf8)!
-            do {
-                let windValues = try JSONDecoder().decode([WindValue].self, from: jsonData)
-                print(windValues)
-                if(windValues.first != nil){
-                    let value = windValues.first!;
-                    self.setWindValue(value: value)
-                }
-            } catch let error {
-               print(error)
-            }
+        let url = URL(string: "http://windcal.com/currentWind.php?limit=1")!
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
 
+            if let data = data {
+                print("Fetched wind values!");
+                let jsonString = (String(data: data, encoding: .utf8)!)
+                let jsonData = jsonString.data(using: .utf8)!
+                do {
+                    let windValues = try JSONDecoder().decode([WindValue].self, from: jsonData)
+                    print(windValues)
+                    if(windValues.first != nil){
+                        let value = windValues.first!;
+                         DispatchQueue.main.async {
+                            self.setWindValue(value: value)
+                        }
+                    }
+                } catch let error {
+                    print(error)
+                }
+
+            }
         }
+        task.resume()
 
     }
 
