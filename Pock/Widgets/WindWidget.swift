@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import Defaults
 
 class WindWidgetButton: NSButton {
     override open var intrinsicContentSize: NSSize {
@@ -37,27 +37,25 @@ class WindWidget: PKWidget {
         button = WindWidgetButton(title: "", target: self, action: #selector(tap))
 
         view = button
+
+        Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(refreshValue), userInfo: nil, repeats: true)
     }
 
     func viewDidAppear() {
-        //button.addGestureRecognizer(NSGes(target: self, action: #selector(didLongPress(_:))))
-
-        Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(refreshValue), userInfo: nil, repeats: true)
-
         refreshValue()
     }
 
-//    @IBAction private func didLongPress(_ control: AnyObject) {
-//        print("long pressed")
-//
-//
-//        let sUrl = "https://www.kiteriders.at/wind/weatherstat_kn.html"
-//
-//        NSWorkspace.shared.open(NSURL(string: sUrl)! as URL)
-//    }
+
 
     @objc func refreshValue()
     {
+
+        if(isDoNotDisturb()){
+            print("Skipped fetching as we're in \"Do not disturb\"!")
+            self.button.title = "\u{1F4A4}"
+            self.button.bezelColor = NSColor.black
+            return
+        }
         if(isFetching){
             print("Skipped fetching!")
             return
@@ -129,8 +127,22 @@ class WindWidget: PKWidget {
 
     }
 
+    private func isDoNotDisturb() ->Bool {
+        let theDefaults = UserDefaults(suiteName: "com.apple.notificationcenterui")
+        return theDefaults?.bool(forKey: "doNotDisturb") ?? false
+    }
+    private func openKiteriders() {
+        let sUrl = "https://www.kiteriders.at/wind/weatherstat_kn.html"
+
+        NSWorkspace.shared.open(NSURL(string: sUrl)! as URL)
+    }
+
     @objc private func tap() {
         refreshValue()
+
+        if(isDoNotDisturb() == false){
+            openKiteriders()
+        }
     }
 }
 
