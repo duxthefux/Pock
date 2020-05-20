@@ -25,7 +25,17 @@ struct WindValue: Codable {
     let gust: Float
 }
 
-class WindWidget: PKWidget {
+fileprivate extension NSTouchBar.CustomizationIdentifier {
+    static let popoverBar = NSTouchBar.CustomizationIdentifier("com.TouchBarCatalog.popoverBar")
+
+}
+
+fileprivate extension NSTouchBarItem.Identifier {
+
+    static let pauseIcon = NSTouchBarItem.Identifier("Pause")
+}
+
+class WindWidget: NSObject, PKWidget, NSTouchBarDelegate {
 
     var identifier: NSTouchBarItem.Identifier = NSTouchBarItem.Identifier.currentWind
     var customizationLabel: String = "Current wind in podersdorf".localized
@@ -33,12 +43,45 @@ class WindWidget: PKWidget {
     var button: NSButton!
     var isFetching: Bool = false
 
-    required init() {
+    required override init() {
+        super.init()
+
+        let touchBar = NSTouchBar()
+        touchBar.delegate = self
+        touchBar.customizationIdentifier = .popoverBar
+        touchBar.defaultItemIdentifiers = [.pauseIcon]
+        touchBar.customizationAllowedItemIdentifiers = [.pauseIcon]
+        touchBar.principalItemIdentifier = .pauseIcon
+
+
         button = WindWidgetButton(title: "", target: self, action: #selector(tap))
 
-        view = button
+        let popoverItem = NSPopoverTouchBarItem(identifier: .pauseIcon)
+        popoverItem.collapsedRepresentationLabel =
+            NSLocalizedString("Scrubber Popover a", comment: "")
+        popoverItem.customizationLabel =
+            NSLocalizedString("Scrubber Popover b", comment: "")
+
+        popoverItem.popoverTouchBar = touchBar
+        
+
+        view = popoverItem.view
 
         Timer.scheduledTimer(timeInterval: 60.0, target: self, selector: #selector(refreshValue), userInfo: nil, repeats: true)
+    }
+
+
+
+    func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
+        print("abbasdfasdf")
+        switch identifier{
+        case .pauseIcon:
+            let customViewItem = NSCustomTouchBarItem(identifier: identifier)
+            customViewItem.view = button
+            return customViewItem
+        default:
+            return nil
+        }
     }
 
     func viewDidAppear() {
